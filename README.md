@@ -10,7 +10,8 @@ This is why you want to use Schedule Manager!
 
 ## Analogies
 
-If you want to add a video clip on your web site you don't have to create your own video hosting. Just upload the video on [YouTube](youtube.com) and integrate it.
+If you want to add a video clip on your web site you don't usually want to create your own video hosting. Just upload the video on [YouTube](youtube.com) and integrate it.
+If you want to add a form/questionnaire just use [Google Forms](https://www.google.com/forms/about/) and integrate it.
 If you want to add a map just create whatever you want on [Google Maps](maps.google.com) and integrate it.
 If you want to add ad just integrate ad network of your choice.
 Why this approach can't be applied to schedules?!
@@ -31,18 +32,34 @@ Business can open an account and use powerful Schedule Wizard to create as much 
 * Schedule Wizard
 * visibility (private, public) (?)
 * integration (websites, social netrowks, internet messagers)
-* notifications (no schedule for upcoming period)
-* open hours
-* style collection
+* veriety integration ways (iframe, js library, json, jpeg file, svg, etc)
+* notifications (no schedule events for upcoming period)
+* open hours (?)
+* style collection and customization
 
 ### For customers
 A single place where you can find all institutions schedules styled the way your choose. Customers are able to choose among available time period and subscribe on updates. Wide printing capabilities.
 
 * search institutions
 * choose uniform layout and style
+* view and print combined schedules
 * subscription (maitenance, changes, etc)
 * add custom notes to any schedule
 * export events to popular calendars (Outlook, Google Calendar, Apple iCal, etc)
+
+### Milestones
+
+1. 3rd party calendar API libraries
+    * able to get events
+    * able to get updates
+2. Backend service which exposes API to request schedules
+    * variety data formats (json, jpeg, svg, etc)
+    * js library to build the schedule on frontend side
+    * iframe
+    * wide range of customization
+3. Web site which provides a handy way to build calendars
+    * powerful calendar builder
+    * search possibilities
 
 ## Competitors
 
