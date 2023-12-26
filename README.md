@@ -1,9 +1,10 @@
-# Schedule Manager
+# EventHub
 
 > If you want to add a video clip on your web site you don't usually want to create your own video hosting. Just upload the video on [YouTube](youtube.com) and *integrate it*. If you want to add a form/questionnaire just use [Google Forms](https://www.google.com/forms/about/) and *integrate it*. If you want to add a map just create whatever you want on [Google Maps](maps.google.com) and *integrate it*. If you want to add ad just integrate ad network of your choice.
-> Why this approach can't be applied to schedules?!
+>
+> Why this approach can't be applied to calendars?!
 
-Many institutions have their schedule which the customers are interested in. Swimming pools, libraries, theatres, schools, etc. People want to have them in order to be aware and manage their own time.
+Many institutions have their calendars which the customers are interested in. Swimming pools, libraries, theatres, schools, etc. People want to have them in order to be aware and manage their own time.
 
 Yes, most institutions have a web site or, at least, a social network account. In the best case they provide schedule as a pretty document which you can download and print out. In the worst case it is just a text announcement.
 
@@ -11,10 +12,10 @@ The keyword here is "pretty". There isn't design which everybody likes. Also, if
 
 On the other hand, busines owners have to reinvent the wheel every time they want to share a calendar.
 
-This is why you want to use Schedule Manager!
+This is why you want to use EventHub!
 
 ## Features
-Schedule Manager serves for both business and customers. This is cloud-based, easy to use service which provides handy way to deal with schedules.
+EventHub serves for both business and customers. This is cloud-based, easy to use service which provides handy way to deal with schedules.
 
 ### Common features
 
@@ -22,7 +23,7 @@ Features that can be used buy both Business and Customers
 
 * wide printing capabilities
 * multiple calendars
-* view and print combined schedules
+* view and print combined calendars
 * historical data
 
 ### For business
@@ -53,9 +54,9 @@ The whole implementation process might be splitted out into three main milestone
 
 ### 1. 3rd party calendar API libraries
 
-Google calendar [library](https://github.com/np25071984/google-calendar-api-client)
+A number of libraries which are able to extract events from a variety of calendars. The libraries incapsulate events pulling and smart updating processes. Support such event sources as ICS files, shared calendars, private calendars and other with different authentication mechanisms. Extract events for a given time frame. Once the events are pulled you can request updates only without pulling all data again.
 
-Such libraries incapsulate events pulling and smart updating processes. Support variety of event sources such as ICS files, shared calendars, private calendars and other with different authentication mechanisms. Exstract events for a given time frame. Once the events are pulled you can request updates only without pulling all data again.
+Google calendar [library](https://github.com/np25071984/google-calendar-api-client)
 
 ```mermaid
 flowchart TD
@@ -90,6 +91,19 @@ flowchart LR
         SR -->|jpeg| CLX[IM group]
 ```
 
+#### Functional requirements
+
+1. Add calendar
+2. Load events (time frame) - load events for a given time frame
+3. Publish calendar - make the calendar available via API
+4. Change calendar properties
+    * publication time frame - which time frame is publicly available for the calendar
+    * autoload option
+    * notify when we are about to run out of events
+    * set default layout and style
+5. Set default layout and style
+6. Return calendar via API
+
 ### 3. Web site which provides a handy way to build calendars
 
 * powerful calendar builder
@@ -97,11 +111,10 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    BS1[Business] & BS2[Business] & BS3[...] --> WS[(Schedule Manager web site)]
+    BS1[Business] & BS2[Business] & BS3[...] --> WS[(EventHub web site)]
     WS --->|create calendar| WS
     WS --> CL1[Client] & CL2[Client] & CLX[...]
 ```
-
 
 ## Competitors
 
