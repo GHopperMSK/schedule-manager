@@ -15,7 +15,7 @@ On the other hand, busines owners have to reinvent the wheel every time they wan
 This is why you want to use EventHub!
 
 ## Features
-EventHub serves for both business and customers. This is cloud-based, easy to use service which provides handy way to deal with schedules.
+EventHub serves for both businesses and customers. This is cloud-based, easy to use service which provides handy way to deal with schedules.
 
 ### Common features
 
@@ -27,14 +27,14 @@ Features that can be used buy both Business and Customers
 * historical data
 
 ### For business
-Business can open an account and use powerful Schedule Wizard to create as much different schedules as they want for any time period. Once a schedule is created you don't have to duplicate it anywere due to wide integration possibilities.
+Business can open an account and use powerful Schedule Wizard to create as much different calendars as they want for any time period. Once a calendar is created you don't have to duplicate it anywere due to wide integration possibilities.
 
 * Schedule Wizard
 * visibility (private, public) (?)
 * integration (web sites, social netrowks, internet messagers, mobile apps, rss)
 * veriety integration ways (iframe, js library, json, jpeg, svg, etc)
 * notifications (about to get run out of schedule events for upcoming period)
-* scheduled publication
+* calendar publication
 * open hours (?)
 * style collection and customization
 
@@ -138,6 +138,8 @@ A number of real world examples
 <details>
 <summary>Swimming pool</summary>
 
+https://www.sevenhillsohio.org/aquatics
+
 The open hours: Tue - Sun, from 5:30 to 21:00. Monday closed.
 
 The institution has many schedules:
@@ -200,17 +202,11 @@ Wed: 9:00 - 13:00
 <details>
 <summary>Library</summary>
 
-events schedule
-```
-01/12/2023: Winter reading Game starts
-01/12/2023: ReindeerRoundup starts
-01/12/2023 15:30 - 16:30: Kids Cafe
-01/12/2023 17:00: Artful Impact
-02/12/2023 11:00 - 13:00: Gingerbread Houses
-03/12/2023 13:00 - 16:45: Frosty's Fest Drop-in families
-24/12/2023: Closed
-25/12/2023: Closed
-30/12/2023: Whale weeks! During library houses
-31/12/2023: Closed
-```
+https://attend.cuyahogalibrary.org/events
+</details>
+
+<details>
+<summary>Public square</summary>
+
+https://www.clevelandpublicsquare.com/events-calendar
 </details>
