@@ -69,12 +69,15 @@ flowchart TD
     end
 ```
 
-### 2. Backend service which exposes API to request schedules
+### 2. Backend service that exposes API to request schedules
 
-* variety data formats (json, jpeg, svg, etc)
-* js library to build the schedule on frontend side
+At this point there isn't any web UI. It is just a backend service with permanent storage and you can interact with it via CLI, permanent storage or the public endpoint.
+
+The public endpoint support wide range of customization and can return calendars in the following formats:
+
+* image
+* json
 * iframe
-* wide range of customization
 
 ```mermaid
 flowchart LR
@@ -85,7 +88,7 @@ flowchart LR
     subgraph "Calendar consumers"
         CL1[WebSite] & CL2[MobileApp] & CL3[SocialNetworks] &  CLX[IM group]
     end
-        SR --> |JS lib| CL1[WebSite]
+        SR --> |iFrame| CL1[WebSite]
         SR --> |json| CL2[MobileApp]
         SR --> CL3[SocialNetworks]
         SR -->|jpeg| CLX[IM group]
@@ -93,18 +96,20 @@ flowchart LR
 
 #### Functional requirements
 
-1. Add calendar
-2. Load events (time frame) - load events for a given time frame
+1. Add calendar - to add one of supported calendar providers into the system
+2. Load events (time frame) - load events from an added calendar for a given time frame
 3. Publish calendar - make the calendar available via API
 4. Change calendar properties
     * publication time frame - which time frame is publicly available for the calendar
     * autoload option
     * notify when we are about to run out of events
     * set default layout and style
-5. Set default layout and style
+5. Set default layout and style - there are many styles available to chose from and you can pick default. On the clients side, clients may override this value and get all calendars in their favorite style.
 6. Return calendar via API
 
 ### 3. Web site which provides a handy way to build calendars
+
+At this point we provide web based UI that may be used to create and customize calendars, set up permissions, see previews, etc. Clients will get a dashboard with their subscriptions.
 
 * powerful calendar builder
 * search possibilities
