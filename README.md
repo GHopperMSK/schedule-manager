@@ -81,17 +81,26 @@ The public endpoint support wide range of customization and can return calendars
 
 ```mermaid
 flowchart LR
-    subgraph "Schedule providers"
+    subgraph calendar_providers ["Calendar providers"]
         BS1[Calendar] & BS2[Calendar] & BSX[...]
     end
-    BS1[Calendar] & BS2[Calendar] & BSX[...] --> SR[(Service)]
-    subgraph "Calendar consumers"
+    subgraph service ["Service"]
+        LM[LoadModule]
+        CM[CustomisationModule]
+        PS[(PermanentStorage)]
+
+        LM[LoadModule] --> PS[(PermanentStorage)]
+        CM[CustomisationModule] --> PS[(PermanentStorage)]
+        RequestHandler[RequestHandler] --> CM[CustomisationModule]
+    end
+    BS1[Calendar] & BS2[Calendar] & BSX[...] --> service
+    subgraph calendar_customers ["Calendar consumers"]
         CL1[WebSite] & CL2[MobileApp] & CL3[SocialNetworks] &  CLX[IM group]
     end
-        SR --> |iFrame| CL1[WebSite]
-        SR --> |json| CL2[MobileApp]
-        SR --> CL3[SocialNetworks]
-        SR -->|jpeg| CLX[IM group]
+    service --> |iFrame| CL1[WebSite]
+    service --> |json| CL2[MobileApp]
+    service --> CL3[SocialNetworks]
+    service -->|jpeg| CLX[IM group]
 ```
 
 #### Functional requirements
