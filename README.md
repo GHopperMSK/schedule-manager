@@ -154,12 +154,14 @@ flowchart LR
 
 ## Terminology
 
-* schedule (timetable) - a collection of events
-    * schedule time period - minimum time range (dayly/weekly/monthly/yearly) which can be repeated over and over again (with or without changes) in order to build infinit schedule. If it is set the schedule may be extended automatically (you are alway able to make changes in any period). Otherwise it has to be filled manually in advance.
+* calendar (timetable) - a collection of events
+    * calendar time period - minimum time range (dayly/weekly/monthly/yearly) which can be repeated over and over again (with or without changes) in order to build infinit schedule. If it is set the schedule may be extended automatically (you are alway able to make changes in any period). Otherwise it has to be filled manually in advance.
     * type - defines whether the institution available during working hours or not when there isn't any event on the date (open/close)
 * event - a record which belongs to a schedule and describes planned happening. There are some types of events:
     * event type - defined in a certain time frame happening which has attendees, location and other properties
     * task type - a full day event
+* customer - a calendar owner
+* client - a calendar user
 
 ### Use cases
 
