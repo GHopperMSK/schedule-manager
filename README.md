@@ -71,13 +71,7 @@ flowchart TD
 
 ### 2. Backend service that exposes API to request schedules
 
-At this point there isn't any web UI. It is just a backend service with permanent storage and you can interact with it via CLI, permanent storage or the public endpoint.
-
-The public endpoint support wide range of customization and can return calendars in the following formats:
-
-* image
-* json
-* iframe
+At this point there isn't any web UI. It is just a backend service with permanent storage and you can interact with it via CLI, the storage or the public endpoint. The endpoint returns the calendars data.
 
 ```mermaid
 flowchart LR
@@ -94,7 +88,7 @@ flowchart LR
         RequestHandler[RequestHandler] --> CM[CustomisationModule]
     end
     BS1[Calendar] & BS2[Calendar] & BSX[...] --> service
-    subgraph calendar_customers ["Calendar consumers"]
+    subgraph calendar_customers ["Clients"]
         CL1[WebSite] & CL2[MobileApp] & CL3[SocialNetworks] &  CLX[IM group]
     end
     service --> |iFrame| CL1[WebSite]
@@ -112,9 +106,31 @@ flowchart LR
     * publication time frame - which time frame is publicly available for the calendar
     * autoload option
     * notify when we are about to run out of events
-    * set default layout and style
 5. Set default layout and style - there are many styles available to chose from and you can pick default. On the clients side, clients may override this value and get all calendars in their favorite style.
 6. Return calendar via API
+
+#### The service components
+
+##### Loading Module
+A module that is responsible for loading calendars from a calendar provider.
+
+##### Functional requirements
+
+* Authenticate on a provider side
+* Get list of events and updates
+* Transform events into our Domain Models (images, links, text formatting, etc)
+
+##### Customisation Module
+
+A module that is responsible for applying styles to calendars and form different layouts from Permanent Storage data. Returns result in one of folloving formats: json, image, iframe.
+
+##### Permanent Storage
+
+A place where all calendars data is stored and extracted from.
+
+##### Request Handler
+
+Transforms request query string into Customisation Module API calls. Performs data validation.
 
 ### 3. Web site which provides a handy way to build calendars
 
