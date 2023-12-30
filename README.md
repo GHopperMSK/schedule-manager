@@ -1,47 +1,47 @@
 # EventHub
 
-> If you want to add a video clip on your web site you don't usually want to create your own video hosting. Just upload the video on [YouTube](youtube.com) and *integrate it*. If you want to add a form/questionnaire just use [Google Forms](https://www.google.com/forms/about/) and *integrate it*. If you want to add a map just create whatever you want on [Google Maps](maps.google.com) and *integrate it*. If you want to add ad just integrate ad network of your choice.
+> If you want to add a video clip on your web site you don't usually want to create your own video hosting. Just upload the video on [YouTube](youtube.com) and *integrate it*. If you want to add a form/questionnaire just use [Google Forms](https://www.google.com/forms/about/) and *integrate it*. If you want to add a map just create whatever you want on [Google Maps](maps.google.com) and *integrate it*. If you want to add ad just *integrate* an ad network of your choice.
 >
 > Why this approach can't be applied to calendars?!
 
-Many institutions have their calendars which the customers are interested in. Swimming pools, libraries, theatres, schools, etc. People want to have them in order to be aware and manage their own time.
+Many institutions have their *Calendars* which the *Clients* are interested in. Swimming pools, libraries, theatres, schools, etc. People want to have them in order to be aware and manage their own time.
 
-Yes, most institutions have a web site or, at least, a social network account. In the best case they provide schedule as a pretty document which you can download and print out. In the worst case it is just a text announcement.
+Yes, most institutions have a web site or, at least, a social network account. In the best case they provide *Calendar* as a pretty document which you can download and print out. In the worst case it is just a text announcement.
 
 The keyword here is "pretty". There isn't design which everybody likes. Also, if you follow a few schedules you, probably, would like them to be similar. Same font, same colors, same layout, same size, etc.
 
-On the other hand, busines owners have to reinvent the wheel every time they want to share a calendar.
+On the other hand, business owners want to focus on their business and not waste time on side questions.
 
 This is why you want to use EventHub!
 
 ## Table of content
 - [Features](#features)
     - [Common features](#common-features)
-    - [For business](#for-business)
-    - [For customers](#for-customers)
+    - [For Customers](#for-customers)
+    - [For Clients](#for-clients)
 - [Milestones](#milestones)
     - [3rd party calendar API libraries](#3rd-party-calendar-api-libraries)
     - [Backend service that exposes API to request schedules](#backend-service-that-exposes-api-to-request-schedules)
         - [Functional requirements](#functional-requirements)
         - [The service components](#the-service-components)
-        - [Client side JS library](#client-side-js-library)
     - [Web site that provides a handy way to build calendars](#web-site-that-provides-a-handy-way-to-build-calendars)
+- [Client side JS library](#client-side-js-library)
 - [Competitors](#competitors)
 - [Terminology](#terminology)
 
 ## Features
-EventHub serves for both businesses and customers. This is cloud-based, easy to use service which provides handy way to deal with schedules.
+EventHub serves for both businesses and customers. This is cloud-based, easy to use service that provides handy way to deal with *Calendars*.
 
 ### Common features
 
-Features that can be used buy both Business and Customers
+Features that can be used buy both *Customers* and *Clients*
 
 * wide printing capabilities
 * multiple calendars
 * view and print combined calendars
 * historical data
 
-### For customers
+### For Customers
 Business can open an account and use powerful Schedule Wizard to create as much different calendars as they want for any time period. Once a calendar is created you don't have to duplicate it anywere due to wide integration possibilities.
 
 * Schedule Wizard
@@ -53,7 +53,7 @@ Business can open an account and use powerful Schedule Wizard to create as much 
 * open hours (?)
 * style collection and customization
 
-### For clients
+### For Clients
 A single place where you can find all institutions schedules styled the way your choose. Customers are able to choose among available time period and subscribe on updates. Wide printing capabilities.
 
 * a single place for all schedules
@@ -122,7 +122,7 @@ flowchart LR
     * autoload option
     * notify when we are about to run out of events
 5. Set default layout and style - there are many styles available to chose from and you can pick default. On the clients side, clients may override this value and get all calendars in their favorite style.
-6. Return calendar via API
+6. Return calendar data via API
 
 #### The service components
 
@@ -148,10 +148,6 @@ A place where all calendars data is stored and extracted from.
 
 Transforms request query string into Customisation Module API calls. Performs data validation.
 
-#### Client Side JS Library
-
-This library is able to request any calendar data from *eventHub* server and build [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) out of it. Supports variety of layouts and provides a bunch of events to build logic on top of the rendered calendar.
-
 ### Web site that provides a handy way to build calendars
 
 At this point we provide web based UI that may be used to create and customize calendars, set up permissions, see previews, etc. Clients will get a dashboard with their subscriptions.
@@ -165,6 +161,10 @@ flowchart LR
     WS --->|create calendar| WS
     WS --> CL1[Client] & CL2[Client] & CLX[...]
 ```
+
+## Client Side JS Library
+
+This library is able to request any calendar data from *eventHub* server and build [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) out of it. Supports variety of layouts and provides a bunch of events to build logic on top of the rendered calendar.
 
 ## Competitors
 
