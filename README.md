@@ -15,19 +15,42 @@ On the other hand, business owners want to focus on their business and not waste
 This is why you want to use EventHub!
 
 ## Table of content
+- [System overview](#system-overview)
 - [Features](#features)
     - [Common features](#common-features)
     - [For Customers](#for-customers)
     - [For Clients](#for-clients)
-- [Milestones](#milestones)
+- [Import Module](#import-module)
+- [Calendar Wizard](#calendar-wizard)
+- [Calendar Management Module](#calendar-management-module)
+- [Customisation Module](#customisation-module)
+- [Client side JS library](#client-side-js-library)
+- [Implementation milestones](#implementation-milestones)
     - [3rd party calendar API libraries](#3rd-party-calendar-api-libraries)
     - [Backend service that exposes API to request schedules](#backend-service-that-exposes-api-to-request-schedules)
         - [Functional requirements](#functional-requirements)
         - [The service components](#the-service-components)
     - [Web site that provides a handy way to build calendars](#web-site-that-provides-a-handy-way-to-build-calendars)
-- [Client side JS library](#client-side-js-library)
 - [Competitors](#competitors)
 - [Terminology](#terminology)
+
+## System overview
+
+```mermaid
+flowchart LR
+    Csmr[Customers]
+    subgraph EH ["EventHub"]
+        IM[ImportModule]
+        CW[Calendar Wizard]
+        MM[Calendar Management Module]
+        CM[Customisztion Module]
+    end
+
+    Csmr --->|calendar| IM
+    Csmr ---> CW
+    EH --->|json| wc[web-clients with EventHub JS library]
+    CM --->|image, iFrame| Clients
+```
 
 ## Features
 EventHub serves for both businesses and customers. This is cloud-based, easy to use service that provides handy way to deal with *Calendars*.
@@ -42,9 +65,9 @@ Features that can be used buy both *Customers* and *Clients*
 * historical data
 
 ### For Customers
-Business can open an account and use powerful Schedule Wizard to create as much different calendars as they want for any time period. Once a calendar is created you don't have to duplicate it anywere due to wide integration possibilities.
+Business can open an account and use powerful Calendar Wizard to create as much different calendars as they want for any time period. Once a calendar is created you don't have to duplicate it anywere due to wide integration possibilities.
 
-* Schedule Wizard
+* Calendar Wizard
 * visibility (private, public) (?)
 * integration (web sites, social netrowks, internet messagers, mobile apps, rss)
 * veriety integration ways (iframe, js library, json, jpeg, svg, etc)
@@ -63,7 +86,33 @@ A single place where you can find all institutions schedules styled the way your
 * add custom notes to any schedule
 * export events to popular calendars (Outlook, Google Calendar, Apple iCal, etc)
 
-## Milestones
+## Import Module
+A module that is responsible for loading Calendars from a calendar provider.
+
+### Functional requirements
+
+* Authenticate on a provider side
+* Get list of events and updates
+* Transform events into our Domain Models
+* Support text formatting (MarkDown)
+
+## Calendar Wizard
+
+Powerful UI to create new and edit existing calendars. Rich text format capabilities.
+
+## Calendar Management Module
+
+A system module that is responsible for updating calendars properties. With this module you can define default styles, publish calendar, update time frames, etc.
+
+## Customisation Module
+
+A module that is responsible for applying styles to calendars and form different layouts from Permanent Storage data. Returns result in one of folloving formats: json, image, iframe.
+
+## Client Side JS Library
+
+This library is able to request any calendar data from *eventHub* server and build [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) out of it. Supports variety of layouts and provides a bunch of events to build logic on top of the rendered calendar.
+
+## Implementation milestones
 
 The whole implementation process might be splitted out into three main milestones
 
@@ -84,7 +133,7 @@ flowchart TD
     end
 ```
 
-### Backend service that exposes API to request schedules
+### Backend service that exposes calendar API
 
 At this point there isn't any web UI. It is just a backend service with permanent storage and you can interact with it via CLI, the storage or the public endpoint. The endpoint returns the calendars data.
 
@@ -94,7 +143,7 @@ flowchart LR
         BS1[Calendar] & BS2[Calendar] & BSX[...]
     end
     subgraph service ["Service"]
-        LM[LoadModule]
+        LM[ImportModule]
         CM[CustomisationModule]
         PS[(PermanentStorage)]
 
@@ -124,30 +173,6 @@ flowchart LR
 5. Set default layout and style - there are many styles available to chose from and you can pick default. On the clients side, clients may override this value and get all calendars in their favorite style.
 6. Return calendar data via API
 
-#### The service components
-
-##### Loading Module
-A module that is responsible for loading calendars from a calendar provider.
-
-##### Functional requirements
-
-* Authenticate on a provider side
-* Get list of events and updates
-* Transform events into our Domain Models
-* Support text formatting (MarkDown)
-
-##### Customisation Module
-
-A module that is responsible for applying styles to calendars and form different layouts from Permanent Storage data. Returns result in one of folloving formats: json, image, iframe.
-
-##### Permanent Storage
-
-A place where all calendars data is stored and extracted from.
-
-##### Request Handler
-
-Transforms request query string into Customisation Module API calls. Performs data validation.
-
 ### Web site that provides a handy way to build calendars
 
 At this point we provide web based UI that may be used to create and customize calendars, set up permissions, see previews, etc. Clients will get a dashboard with their subscriptions.
@@ -161,10 +186,6 @@ flowchart LR
     WS --->|create calendar| WS
     WS --> CL1[Client] & CL2[Client] & CLX[...]
 ```
-
-## Client Side JS Library
-
-This library is able to request any calendar data from *eventHub* server and build [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) out of it. Supports variety of layouts and provides a bunch of events to build logic on top of the rendered calendar.
 
 ## Competitors
 
