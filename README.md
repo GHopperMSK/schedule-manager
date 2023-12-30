@@ -14,6 +14,21 @@ On the other hand, busines owners have to reinvent the wheel every time they wan
 
 This is why you want to use EventHub!
 
+## Table of content
+- [Features](#features)
+    - [Common features](#common-features)
+    - [For business](#for-business)
+    - [For customers](#for-customers)
+- [Milestones](#milestones)
+    - [3rd party calendar API libraries](#3rd-party-calendar-api-libraries)
+    - [Backend service that exposes API to request schedules](#backend-service-that-exposes-api-to-request-schedules)
+        - [Functional requirements](#functional-requirements)
+        - [The service components](#the-service-components)
+        - [Client side JS library](#client-side-js-library)
+    - [Web site that provides a handy way to build calendars](#web-site-that-provides-a-handy-way-to-build-calendars)
+- [Competitors](#competitors)
+- [Terminology](#terminology)
+
 ## Features
 EventHub serves for both businesses and customers. This is cloud-based, easy to use service which provides handy way to deal with schedules.
 
@@ -26,7 +41,7 @@ Features that can be used buy both Business and Customers
 * view and print combined calendars
 * historical data
 
-### For business
+### For customers
 Business can open an account and use powerful Schedule Wizard to create as much different calendars as they want for any time period. Once a calendar is created you don't have to duplicate it anywere due to wide integration possibilities.
 
 * Schedule Wizard
@@ -38,7 +53,7 @@ Business can open an account and use powerful Schedule Wizard to create as much 
 * open hours (?)
 * style collection and customization
 
-### For customers
+### For clients
 A single place where you can find all institutions schedules styled the way your choose. Customers are able to choose among available time period and subscribe on updates. Wide printing capabilities.
 
 * a single place for all schedules
@@ -52,7 +67,7 @@ A single place where you can find all institutions schedules styled the way your
 
 The whole implementation process might be splitted out into three main milestones
 
-### 1. 3rd party calendar API libraries
+### 3rd party calendar API libraries
 
 A number of libraries which are able to extract events from a variety of calendars. The libraries incapsulate events pulling and smart updating processes. Support such event sources as ICS files, shared calendars, private calendars and other with different authentication mechanisms. Extract events for a given time frame. Once the events are pulled you can request updates only without pulling all data again.
 
@@ -69,7 +84,7 @@ flowchart TD
     end
 ```
 
-### 2. Backend service that exposes API to request schedules
+### Backend service that exposes API to request schedules
 
 At this point there isn't any web UI. It is just a backend service with permanent storage and you can interact with it via CLI, the storage or the public endpoint. The endpoint returns the calendars data.
 
@@ -83,18 +98,18 @@ flowchart LR
         CM[CustomisationModule]
         PS[(PermanentStorage)]
 
-        LM[LoadModule] --> PS[(PermanentStorage)]
-        CM[CustomisationModule] --> PS[(PermanentStorage)]
-        RequestHandler[RequestHandler] --> CM[CustomisationModule]
+        LM --> PS[(PermanentStorage)]
+        CM --> PS
+        RequestHandler[RequestHandler] --> CM
     end
-    BS1[Calendar] & BS2[Calendar] & BSX[...] --> service
+    BS1 & BS2 & BSX --> service
     subgraph calendar_customers ["Clients"]
         CL1[WebSite] & CL2[MobileApp] & CL3[SocialNetworks] &  CLX[IM group]
     end
-    service --> |iFrame| CL1[WebSite]
-    service --> |json| CL2[MobileApp]
-    service --> CL3[SocialNetworks]
-    service -->|jpeg| CLX[IM group]
+    service --> |iFrame| CL1
+    service --> |json| CL2
+    service --> CL3
+    service -->|jpeg| CLX
 ```
 
 #### Functional requirements
@@ -118,7 +133,8 @@ A module that is responsible for loading calendars from a calendar provider.
 
 * Authenticate on a provider side
 * Get list of events and updates
-* Transform events into our Domain Models (images, links, text formatting, etc)
+* Transform events into our Domain Models
+* Support text formatting (MarkDown)
 
 ##### Customisation Module
 
@@ -132,7 +148,11 @@ A place where all calendars data is stored and extracted from.
 
 Transforms request query string into Customisation Module API calls. Performs data validation.
 
-### 3. Web site which provides a handy way to build calendars
+#### Client Side JS Library
+
+This library is able to request any calendar data from *eventHub* server and build [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) out of it. Supports variety of layouts and provides a bunch of events to build logic on top of the rendered calendar.
+
+### Web site that provides a handy way to build calendars
 
 At this point we provide web based UI that may be used to create and customize calendars, set up permissions, see previews, etc. Clients will get a dashboard with their subscriptions.
 
@@ -141,7 +161,7 @@ At this point we provide web based UI that may be used to create and customize c
 
 ```mermaid
 flowchart LR
-    BS1[Business] & BS2[Business] & BS3[...] --> WS[(EventHub web site)]
+    CS1[Customer] & CS2[Customer] & CSX[...] --> WS[(EventHub web site)]
     WS --->|create calendar| WS
     WS --> CL1[Client] & CL2[Client] & CLX[...]
 ```
@@ -155,7 +175,9 @@ flowchart LR
 ## Terminology
 
 * calendar (timetable) - a collection of events
-    * calendar time period - minimum time range (dayly/weekly/monthly/yearly) which can be repeated over and over again (with or without changes) in order to build infinit schedule. If it is set the schedule may be extended automatically (you are alway able to make changes in any period). Otherwise it has to be filled manually in advance.
+    * calendar time period - minimum time range (daily/weekly/monthly/yearly) which can be repeated over and over again (with or without changes) in order to build infinit schedule. If it is set the schedule may be extended automatically (you are alway able to make changes in any period). Otherwise it has to be filled manually in advance.
+    * publiclly available periods amount - number of *calendar time periods* that *client* may navigate over
+    * when to load a new portion of events
     * type - defines whether the institution available during working hours or not when there isn't any event on the date (open/close)
 * event - a record which belongs to a schedule and describes planned happening. There are some types of events:
     * event type - defined in a certain time frame happening which has attendees, location and other properties
