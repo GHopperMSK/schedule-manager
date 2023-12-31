@@ -24,6 +24,7 @@ This is why you want to use EventHub!
 - [Calendar Wizard](#calendar-wizard)
 - [Calendar Management Module](#calendar-management-module)
 - [Customisation Module](#customisation-module)
+- [Domain models](#domain-models)
 - [Client side JS library](#client-side-js-library)
 - [Implementation milestones](#implementation-milestones)
     - [3rd party calendar API libraries](#3rd-party-calendar-api-libraries)
@@ -43,13 +44,21 @@ flowchart LR
         IM[ImportModule]
         CW[Calendar Wizard]
         MM[Calendar Management Module]
+        PS[Permanent Storage]
         CM[Customisztion Module]
+        RH[Request Handler]
+    end
+    subgraph WC ["Web Clients"]
+        EHJSL[EventHub JS library]
     end
 
     Csmr --->|calendar| IM
     Csmr ---> CW
-    EH --->|json| wc[web-clients with EventHub JS library]
-    CM --->|image, iFrame| Clients
+    RH --->|json| EHJSL
+    PS ---> CM
+    MM & IM & CW ---> PS
+    CM & PS ---> RH
+    RH --->|image, iFrame| Clients
 ```
 
 ## Features
@@ -108,9 +117,92 @@ A system module that is responsible for updating calendars properties. With this
 
 A module that is responsible for applying styles to calendars and form different layouts from Permanent Storage data. Returns result in one of folloving formats: json, image, iframe.
 
+## Domain models
+
+```mermaid
+classDiagram
+    class TimeFrame {
+        - DateTime start
+        - DateTime end
+        + getStart() DateTime
+        + getEnd() DateTime
+    }
+    class Cancellation {
+        - String id
+        + getId() String
+    }
+    class Todo {
+        - String calendarId
+        - String description
+        - TimeFrame timeFrame
+        + getCalendarId() String
+        + getDescription() String
+        + getTimeFrame() TimeFrame
+    }
+    class Event {
+        - String title
+        - Array attendees
+        - String location
+        + getTitle() String
+        + getAttendees() Array
+        + getLocation() String
+    }
+    class Customer {
+        - String id
+        + getId() String
+    }
+    class Calendar {
+        - String id
+        - CalendarSettings settings
+        - Customer owner
+        - String name
+        + getId() String
+        + getSettings() CalendarSettings
+        + getCustomer() Customer
+        + getName() String
+    }
+    class CalendarSettings {
+        - String id
+        - TimeFrame publicationTimeFrame
+        - Boolean isPublished
+        + getId() String
+        + getPublicationTimeFrame() TimeFrame
+        + getIsPublished() Boolean
+    }
+
+    Todo --o TimeFrame
+    Todo --o Calendar
+    Todo --|> Cancellation
+    Event --|> Todo
+    Calendar --o CalendarSettings
+
+    Calendar --o Customer
+```
+
 ## Client Side JS Library
 
 This library is able to request any calendar data from *eventHub* server and build [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) out of it. Supports variety of layouts and provides a bunch of events to build logic on top of the rendered calendar.
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    Customer->>3rd Party Calendar: create calendar
+    3rd Party Calendar->>Customer: calendar
+    Customer->>EventHub: calendarURL + credentials + settings
+    EventHub->>3rd Party Calendar: credentials
+    3rd Party Calendar->>EventHub: events
+    Client->>EventHub: request
+    EventHub->>Client: calendar
+    Customer->>3rd Party Calendar: add or edit events
+    3rd Party Calendar->>EventHub: webhook
+    EventHub->>3rd Party Calendar: get updates
+    3rd Party Calendar->>EventHub: updates
+    loop Get new events
+        EventHub->>3rd Party Calendar: request
+        3rd Party Calendar->>EventHub: events
+    end
+```
 
 ## Implementation milestones
 
@@ -285,3 +377,7 @@ https://attend.cuyahogalibrary.org/events
 
 https://www.clevelandpublicsquare.com/events-calendar
 </details>
+
+## Questions
+
+1. When and how to load new portion of events. Every day load another day or periodically load time frame?
