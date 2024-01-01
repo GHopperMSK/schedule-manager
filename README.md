@@ -1,4 +1,4 @@
-# EventHub
+# EventHub v.0.1
 
 > If you want to add a video clip on your web site you don't usually want to create your own video hosting. Just upload the video on [YouTube](youtube.com) and *integrate it*. If you want to add a form/questionnaire just use [Google Forms](https://www.google.com/forms/about/) and *integrate it*. If you want to add a map just create whatever you want on [Google Maps](maps.google.com) and *integrate it*. If you want to add ad just *integrate* an ad network of your choice.
 >
@@ -26,6 +26,9 @@ This is why you want to use EventHub!
 - [Customisation Module](#customisation-module)
 - [Domain models](#domain-models)
 - [Client side JS library](#client-side-js-library)
+- [Workflow](#workflow)
+- [Get updates](#get-updates)
+- [API specification](#api-specification)
 - [Implementation milestones](#implementation-milestones)
     - [3rd party calendar API libraries](#3rd-party-calendar-api-libraries)
     - [Backend service that exposes API to request schedules](#backend-service-that-exposes-api-to-request-schedules)
@@ -164,9 +167,11 @@ classDiagram
     class CalendarSettings {
         - String id
         - TimeFrame publicationTimeFrame
+        - Integer preloadDays
         - Boolean isPublished
         + getId() String
         + getPublicationTimeFrame() TimeFrame
+        + getPreloadDays() Integer
         + getIsPublished() Boolean
     }
 
@@ -183,26 +188,55 @@ classDiagram
 
 This library is able to request any calendar data from *eventHub* server and build [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) out of it. Supports variety of layouts and provides a bunch of events to build logic on top of the rendered calendar.
 
-## Sequence diagram
+## Workflow
 
 ```mermaid
 sequenceDiagram
-    Customer->>3rd Party Calendar: create calendar
-    3rd Party Calendar->>Customer: calendar
-    Customer->>EventHub: calendarURL + credentials + settings
-    EventHub->>3rd Party Calendar: credentials
-    3rd Party Calendar->>EventHub: events
-    Client->>EventHub: request
+    alt 3rd Party Calendar service
+        Customer->>3rd Party Calendar: create calendar
+        3rd Party Calendar->>Customer: calendar
+        Customer->>EventHub: calendarURL + credentials + settings
+        EventHub->>3rd Party Calendar: request
+        3rd Party Calendar->>EventHub: calendar (publication timeframe + preload)
+    else EventHub calendar wizard
+        Customer->>EventHub: create calendar
+    end
+    Client->>EventHub: request (within publication time frame)
     EventHub->>Client: calendar
-    Customer->>3rd Party Calendar: add or edit events
-    3rd Party Calendar->>EventHub: webhook
-    EventHub->>3rd Party Calendar: get updates
-    3rd Party Calendar->>EventHub: updates
+    alt 3rd Party Calendar service
+        Customer->>3rd Party Calendar: add or edit events
+        3rd Party Calendar->>EventHub: webhook
+        EventHub->>3rd Party Calendar: get updates
+        3rd Party Calendar->>EventHub: updates
+    else EventHub calendar wizard
+        Customer->>EventHub: add or edit events
+    end
     loop Get new events
         EventHub->>3rd Party Calendar: request
         3rd Party Calendar->>EventHub: events
     end
 ```
+
+## Get updates
+
+```mermaid
+sequenceDiagram
+    Customer->>EventHub: calendar for publication period + preload days
+    loop Update calendar
+        EventHub->>EventHub: publish preload days time
+        EventHub->>Customer: get updates for the next preload days
+        Customer->>EventHub: calendar for the next preload days
+    end
+```
+
+## API specification
+
+```json
+[
+
+]
+```
+
 
 ## Implementation milestones
 
