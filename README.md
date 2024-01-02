@@ -1,4 +1,4 @@
-# EventHub v.0.1
+# EventHub
 
 > If you want to add a video clip on your web site you don't usually want to create your own video hosting. Just upload the video on [YouTube](youtube.com) and *integrate it*. If you want to add a form/questionnaire just use [Google Forms](https://www.google.com/forms/about/) and *integrate it*. If you want to add a map just create whatever you want on [Google Maps](maps.google.com) and *integrate it*. If you want to add ad just *integrate* an ad network of your choice.
 >
@@ -231,12 +231,7 @@ sequenceDiagram
 
 ## API specification
 
-```json
-[
-
-]
-```
-
+[link](openapi.yaml)
 
 ## Implementation milestones
 
