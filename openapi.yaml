@@ -28,7 +28,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Calendar'          
+                $ref: '#/components/schemas/Calendar'
         '400':
           description: Invalid ID supplied
         '404':
@@ -36,11 +36,22 @@ paths:
 components:
   schemas:
     Calendar:
-      type: array
-      items:
-        anyOf:
-          - $ref : '#/components/schemas/Task'
-          - $ref : '#/components/schemas/Event'
+      type: object
+      properties:
+        name:
+          type: string
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+        events:
+          type: array
+          items:
+            anyOf:
+              - $ref : '#/components/schemas/Task'
+              - $ref : '#/components/schemas/Event'
 
     Task:
       type: object
@@ -52,10 +63,10 @@ components:
         start:
           type: string
           format: date
-        end: 
+        end:
           type: string
           format: date
-        description: 
+        description:
           type: string
 
     Event:
@@ -68,12 +79,12 @@ components:
         start:
           type: string
           format: date-time
-        end: 
+        end:
           type: string
           format: date-time
         title:
           type: string
-        description: 
+        description:
           type: string
         location:
           type: string

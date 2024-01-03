@@ -159,10 +159,13 @@ classDiagram
         - CalendarSettings settings
         - Customer owner
         - String name
+        - TimeFrame timeFrame
+        - Boolean disablePastEvents
         + getId() String
         + getSettings() CalendarSettings
         + getCustomer() Customer
         + getName() String
+        + getTimeFrame() TimeFrame
     }
     class CalendarSettings {
         - String id
@@ -409,4 +412,4 @@ https://www.clevelandpublicsquare.com/events-calendar
 
 ## Questions
 
-1. When and how to load new portion of events. Every day load another day or periodically load time frame?
+1. Return events from the past.
